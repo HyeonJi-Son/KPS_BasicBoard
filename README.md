@@ -23,3 +23,7 @@ git add README.md
 git commit -m "first commit"
 git remote and origin http://저장소주소/경로/경로/레포지토리명.git
 git push -u origin master
+
+
+**깃 명령어**
+http://leechoong.com/posts/2017/git_command/
