@@ -9,7 +9,7 @@ git 설치 진행: https://goddaehee.tistory.com/216
 
 **Git Colne 하기**
 기본 명령어
-- git clone http://저장소주소/경로/경로/레포지토리명.git
+- git clone http://저장소주소/경로/경로/레포지토리명.git /n
 warning: You appear to have cloned an empty repository. 확인될 때
 - git init --bare
     - Initialized empty Git repository in C:/경로/ <가 뜬다.
