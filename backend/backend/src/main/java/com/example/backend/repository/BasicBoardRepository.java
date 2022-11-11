@@ -1,2 +1,4 @@
-package com.example.backend.repository;public class BasicBoardRepository {
+package com.example.backend.repository;
+
+public class BasicBoardRepository {
 }

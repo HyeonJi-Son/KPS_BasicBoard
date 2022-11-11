@@ -1,2 +1,4 @@
-package com.example.backend.entity;public class BasicBoard {
+package com.example.backend.entity;
+
+public class BasicBoard {
 }

@@ -1,2 +1,4 @@
-package com.example.backend.service.BasicBoard;public class BasicBoardServiceImpl {
+package com.example.backend.service.BasicBoard;
+
+public interface BasicBoardServiceImpl {
 }
