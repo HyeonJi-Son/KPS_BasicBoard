@@ -1,55 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, {useState,useEffect} from 'react';
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  const [user, setUser] = useState("");
+
+  useEffect(()=>{
+    axios.post("/api/users").then((response)=>{
+      if(response.data){
+        console.log(response.data);
+        setUser(response.data);
+      }else{
+        alert("failed to");
+      }
+    });
+  },[]);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter /> {/* 카운터 컴포넌트의 내용이 여기에서 확인이 되어야 한다. */}
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
+
+        <h3>{user.id}</h3>
+        <h3>{user.username}</h3>
+        <h3>{user.password}</h3>
+        <h3>{user.email}</h3>
       </header>
     </div>
   );
