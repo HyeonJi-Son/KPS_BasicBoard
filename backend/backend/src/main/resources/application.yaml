@@ -7,6 +7,7 @@ spring:
     username: amadea
     password: amadea@123
     driver-class-name: com.mysql.cj.jdbc.Driver
+
     dialect: org.hibernate.dialect.MySQL8Dialect
 
   jpa:
@@ -15,7 +16,7 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: 'update'
+      ddl-auto: 'create'
 
 
   servlet:
