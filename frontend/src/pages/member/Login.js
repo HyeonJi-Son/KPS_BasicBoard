@@ -43,7 +43,7 @@ export function Login() {
                         </tbody>
                     </table>
 
-                        <Link to="/layout">
+                        <Link to="/boardListPage">
                             <button> 로그인 </button>
                         </Link>
                 </div>
