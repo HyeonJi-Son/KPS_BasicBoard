@@ -1,17 +1,20 @@
 //import React, {useState,useEffect} from 'react';
-// import logo from './logo.svg';
-// import { Counter } from './features/counter/Counter';
 //import axios from 'axios';
 import './App.css';
+import React from 'react';
+import { Routes, Route } from "react-router-dom";
 
-//import Layout from "./components/layout/Layout"
 import Login from "./components/member/Login"
+import Layout from "./components/layout/Layout"
 
 function App() {
 
-
   return (
-    <Login/>
+    <Routes>
+      <Route path="/" element={<Login />}></Route>
+      <Route path="/layout" element={<Layout />}></Route>
+    </Routes>
+    //<Login/>
   );
 }
 

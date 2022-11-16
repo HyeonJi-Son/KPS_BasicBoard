@@ -1,9 +1,11 @@
+import React from 'react';
+//import styles from './Layout.module.css';
 
 
-function Layout() {
+export function Layout() {
     return (
         <div>
-            layout 나오나요.
+            <p>layout 나오나요.</p>
         </div>
     )
 }

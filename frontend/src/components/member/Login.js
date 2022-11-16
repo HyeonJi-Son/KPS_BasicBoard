@@ -1,7 +1,10 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+//import { Routes, Route } from "react-router-dom";
+//import Layout from "./components/layout/Layout";
 import styles from './Login.module.css';
 
-export function Layout() {
+export function Login() {
     return (
         <div>
             <div className={styles.card}>
@@ -40,9 +43,9 @@ export function Layout() {
                         </tbody>
                     </table>
 
-                    <button>
-                        로그인
-                    </button>
+                        <Link to="/layout">
+                            <button> 로그인 </button>
+                        </Link>
                 </div>
             </div>
             <button>
@@ -52,4 +55,4 @@ export function Layout() {
     )
 }
 
-export default Layout;
+export default Login;
