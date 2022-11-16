@@ -4,8 +4,12 @@ import './App.css';
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 
-import Login from "./components/member/Login"
-import Layout from "./components/layout/Layout"
+import Login from "./pages/member/Login"
+import Layout from "./pages/layout/Layout"
+import BoardListPage from './pages/BasicBoard/BoardListPage';
+import BoardModifyPage from './pages/BasicBoard/BoardModifyPage';
+import BoardReadPage from './pages/BasicBoard/BoardReadPage';
+import BoardRegisterPage from './pages/BasicBoard/BoardRegisterpage';
 
 function App() {
 
@@ -13,6 +17,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />}></Route>
       <Route path="/layout" element={<Layout />}></Route>
+      <Route path="/boardListPage" element={<BoardListPage />}></Route>
+      <Route path="/boardModifyPage" element={<BoardModifyPage />}></Route>
+      <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
+      <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
     </Routes>
     //<Login/>
   );
