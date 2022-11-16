@@ -1,0 +1,16 @@
+.card{
+  width: 250px;
+  border: 1px solid black;
+  flex-direction: column;
+}
+.card-img {
+    height: 150px;
+    display: flex;
+}
+.card-head{
+ height: 50px;
+  background-color: thistle;
+}
+.card-main{
+  height: 100px;
+}
