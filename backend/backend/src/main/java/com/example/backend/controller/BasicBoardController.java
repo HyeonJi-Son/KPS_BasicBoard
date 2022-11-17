@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api") //경로 분리해둬도 돌아가는구나
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
-//CrossOrigin은 있으나 없으나 결과가 같네?
 public class BasicBoardController {
 
     @PostMapping("/users")
