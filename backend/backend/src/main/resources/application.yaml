@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  security:
+      user:
+          name: user
+          password: 1111 #Spring Security Default password 변경
   datasource:
     url: jdbc:mysql://localhost:3306/probation_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
     username: amadea
