@@ -29,4 +29,3 @@ export const findAllBoard = () => async (dispatch) => {
     const response = await axios.get('/api/users');
     dispatch(boardSlice.actions.setBoards(response.data));
 }
-
