@@ -36,17 +36,17 @@ export function BoardList() {
                     {
                         //삼항 연산자 방식으로 if else 사용하였음.
                         //이 방식을 사용하면 return()내에서도 작성 가능.
-                        boards?.length <= 0 
+                        boards.length <= 0 
                             ? <tr><td> 등록된 게시글이 없습니다.</td></tr>
                             : boards?.map(board => {
                                 return (
-                                    <tr key={`board-${board.id}`}>
+                                    <tr key={`board-${board.boardNo}`}>
                                 {/* key값을 적는 형식은 늘 같지만
                                 선정할 때 반드시 겹치지않는 고유값을 넣을 것 */}
-                                        <td> {board.id} </td>
-                                        <td> {board.userName} </td>
-                                        <td> {board.password} </td>
-                                        <td> {board.email} </td>
+                                        <td> {board.boardNo} </td>
+                                        <td> {board.title} </td>
+                                        <td> {board.writer} </td>
+                                        <td> {board.regDate} </td>
                                     </tr>
                                 )
                             })
