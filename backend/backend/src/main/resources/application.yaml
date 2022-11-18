@@ -4,15 +4,13 @@ server:
 spring:
   security:
       user:
-          name: user
-          password: 1111 #Spring Security Default password 변경
+        name: user
+        password: 1111 #Spring Security Default password 변경
   datasource:
     url: jdbc:mysql://localhost:3306/probation_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
     username: amadea
     password: amadea@123
     driver-class-name: com.mysql.cj.jdbc.Driver
-#MySQL Connector/J 8.0 부터는 'com.mysql.jdbc.Driver' 아니라 'com.mysql.cj.jdbc.Driver' 으로 사용합니다.
-    #이미 들어가있는데 어디서 오류가 나고 있는걸까...
     dialect: org.hibernate.dialect.MySQL8Dialect
 
   jpa:
