@@ -28,7 +28,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll() //permitAll<-권한 상관없이 모두 접근 가능.
+                .antMatchers("/basicBoard/**").permitAll() //permitAll<-권한 상관없이 모두 접근 가능.
                 .anyRequest().authenticated()
                 .and()
 //                .authorizeRequests(authorize -> authorize
