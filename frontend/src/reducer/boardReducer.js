@@ -28,3 +28,17 @@ export const findAllBoard = () => async (dispatch) => {
     const response = await axios.get('/basicBoard/list');
     dispatch(boardSlice.actions.setBoards(response.data));
 }
+
+export const registBoard = (data) => () => {
+    axios
+        .post('basicBoard/register', data) //PostMapping을 타고 감.
+                                // ------- <-아까 호출해서 넣어준 data이다.
+                                // + , 세번째는 옵션을 작성하게 됨.(지금은 생략)
+        .then((result) => { //.then은 axios에서 통신이 끝나고 데이터를 받아오기까지 대기
+            console.log(result);
+            alert("게시글 등록 성공")
+            window.location = '/boardListPage'
+        }, (error) => { //<-여기서 error는 함수 형태의 인자이다.
+            console.error(error); //에러가 났을 때 사용하는 함수 형식
+        })
+}
