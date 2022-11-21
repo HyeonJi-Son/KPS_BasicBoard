@@ -36,8 +36,10 @@ public class BasicBoardServiceImpl implements BasicBoardService {
 //    @Override
 //    public BasicBoard modify (BasicBoard basicBoard);
 
-//    @Override
-//    public void remove (Integer boardNo);
+    @Override
+    public void remove (Integer boardNo) {
+        repository.deleteById(Long.valueOf(boardNo));
+    };
 
 
 }

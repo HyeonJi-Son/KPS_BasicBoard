@@ -45,11 +45,10 @@ public class BasicBoardController {
 //
 //    }
 //
-//    //삭제
-//    @DeleteMapping("/{boardNo}")
-//    public void basicBoardRemove() {
-
-//    }
+    //삭제
+    @DeleteMapping("/{boardNo}")
+    public void basicBoardRemove(
+            @PathVariable("boardNo") Integer boardNo) { service.remove(boardNo); }
 
 
 

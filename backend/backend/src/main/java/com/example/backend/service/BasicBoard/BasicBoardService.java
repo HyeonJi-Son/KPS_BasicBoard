@@ -10,6 +10,6 @@ public interface BasicBoardService {
     public List<BasicBoard> list ();
 //    public BasicBoard read (Integer boardNo);
 //    public BasicBoard modify (BasicBoard basicBoard);
-//    public void remove (Integer boardNo);
+    public void remove (Integer boardNo);
 
 }
