@@ -5,6 +5,7 @@ import com.example.backend.entity.User;
 import com.example.backend.service.BasicBoard.BasicBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,14 @@ public class BasicBoardController {
     @Autowired
     private BasicBoardService service;
 
+    @PostMapping("/register")
     //등록
-    public void basicBoardRegister() {
-
+    public void basicBoardRegister(@Validated @RequestBody BasicBoard basicBoard) {
+        //@Validated 어노테이션: 빈(Bean)검증기를 이용해 객체의 제약 조건을 검증하도록 지시.
+                            // JSR표준기술(X) 스프링 프레임워크에서 제공하는 어노테이션 및 기능
+        //AOP를 기반으로 스프링 빈의 유효성 검증을 위해 사용. 클래스에는 Validated 메소드네는 Valid 붙여준다.
+        //유효성 검증에 실패할 경우 ConstratintViolationException이 발생.
+        service.register(basicBoard);
     }
 
     //목록

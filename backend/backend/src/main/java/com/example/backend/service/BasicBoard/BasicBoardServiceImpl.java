@@ -19,7 +19,7 @@ public class BasicBoardServiceImpl implements BasicBoardService {
 
     @Override
     public void register (BasicBoard basicBoard) {
-
+        repository.save(basicBoard);
     }
 
     @Override
