@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { registBoard } from '../../reducer/boardReducer';
 
 
 export function BoardRegisterForm() {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({}); //처음의 값은 비어있음. 변화를 감지할 때 마다 추가됨.
     //onChange의 변화를 감지하여 State에 넣어준다.
         //이렇게 해주는 이벤트의 이름이 아래의 changeInput이다.
     const dispatch = useDispatch();
 
     const changeInput = (e) => {
         setData({...data, [e.target.name]: e.target.value})
+            //... <- 기존에 있던 값을 펼친다는 듯.
+                        //변화가 감지되는 부분의 name를 찾음.
+                                        //해당 name의 value를 찾음
     }
 
     const submitForm = (e) => { //submit 이벤트
@@ -21,7 +25,10 @@ export function BoardRegisterForm() {
 
     return (
         <form onSubmit={submitForm}>
-            <button type="button">목록</button>
+            <Link to="/boardListPage">
+                <button type="button">목록</button>
+            {/* button 태그를 사용할 때는 꼭 type을 적어두어야 한다. 기본은 submit(즉, 누르면 새로고침됨) */}
+            </Link>
             <table>
                 <tbody>
                     <tr>
