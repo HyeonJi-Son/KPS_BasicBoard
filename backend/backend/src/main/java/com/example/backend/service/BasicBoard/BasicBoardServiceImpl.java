@@ -36,7 +36,7 @@ public class BasicBoardServiceImpl implements BasicBoardService {
     }
 
     @Override
-    public void register (BoardRequest boardRequest) throws NoSuchAlgorithmException {
+    public BasicBoard register (BoardRequest boardRequest) throws NoSuchAlgorithmException {
         //encodePassword 변수에 담는 값 = passwordEncode 함수가 작동하여 return된 값
         String encodePassword = this.passwordEncode(boardRequest.getPassword());
 
@@ -44,13 +44,17 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         boardRequest.setPassword(encodePassword);
 
         BasicBoard basicBoardEntity = new BasicBoard(
-                boardRequest.getBoardNo(), boardRequest.getWriter(), boardRequest.getTitle(),
+                boardRequest.getBoardNo(), boardRequest.getTitle(), boardRequest.getWriter(),
                 boardRequest.getContent(), boardRequest.getPassword()
         );
+        //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
 
-
-        repository.save(basicBoardEntity);
-
+        return repository.save(basicBoardEntity);
+       //repository.save는 등록과 return을 함께 해준다.
+        //public void register<방식으로 작성하는 경우 void는 return을 사용할 수 없으므로 등록만 사용하는 셈이 된다.
+        //    <S extends T> S save(S entity);
+        //이번 과제에서는 register 페이지에서 바로 게시글 상세보기로 이동하기 위해
+        // 등록한 내용을 곧장 return할 필요가 있었다. 이와 같은 방식으로 작성할 수도 있다는 것을 알아두자.
     }
 
     @Override

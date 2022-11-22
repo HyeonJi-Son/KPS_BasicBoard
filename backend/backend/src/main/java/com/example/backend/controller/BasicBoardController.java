@@ -20,9 +20,11 @@ public class BasicBoardController {
     @Autowired
     private BasicBoardService service;
 
+    //void가 아니라 BasicBoard를 이용하도록 했다.
+        //Why? - frontend에 등록과 동시에 return하고싶은 내용이 있기 때문에.
     @PostMapping("/register")
     //등록
-    public void basicBoardRegister(@Validated @RequestBody BoardRequest boardRequest) throws NoSuchAlgorithmException {
+    public BasicBoard basicBoardRegister(@Validated @RequestBody BoardRequest boardRequest) throws NoSuchAlgorithmException {
         //@Validated 어노테이션: 빈(Bean)검증기를 이용해 객체의 제약 조건을 검증하도록 지시.
                             // JSR표준기술(X) 스프링 프레임워크에서 제공하는 어노테이션 및 기능
         //AOP를 기반으로 스프링 빈의 유효성 검증을 위해 사용. 클래스에는 Validated 메소드네는 Valid 붙여준다.
@@ -31,7 +33,8 @@ public class BasicBoardController {
         log.info("registerController 정보 확인: "
                 + boardRequest.getBoardNo() + boardRequest.getWriter() + boardRequest.getTitle() );
 
-        service.register(boardRequest);
+        return service.register(boardRequest);
+        //작성하여 등록한 게시글 내용을 return해주고 있다.
     }
 
     //목록
