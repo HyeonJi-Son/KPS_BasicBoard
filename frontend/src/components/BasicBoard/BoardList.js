@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { findAllBoard } from '../../reducer/boardReducer';
+import { Link } from "react-router-dom";
 import styles from './BoardList.module.css';
 
 export function BoardList() {
@@ -44,7 +45,7 @@ export function BoardList() {
                                 {/* key값을 적는 형식은 늘 같지만
                                 선정할 때 반드시 겹치지않는 고유값을 넣을 것 */}
                                         <td> {board.boardNo} </td>
-                                        <td> {board.title} </td>
+                                         <td> <Link to ={`/boardReadPage/${board.boardNo}`} > {board.title} </Link> </td>
                                         <td> {board.writer} </td>
                                         <td> {board.regDate} </td>
                                     </tr>
