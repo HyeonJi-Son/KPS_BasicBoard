@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.controller.request.BoardRequest;
 import com.example.backend.entity.BasicBoard;
 import com.example.backend.entity.User;
 import com.example.backend.service.BasicBoard.BasicBoardService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
@@ -20,12 +22,16 @@ public class BasicBoardController {
 
     @PostMapping("/register")
     //등록
-    public void basicBoardRegister(@Validated @RequestBody BasicBoard basicBoard) {
+    public void basicBoardRegister(@Validated @RequestBody BoardRequest boardRequest) throws NoSuchAlgorithmException {
         //@Validated 어노테이션: 빈(Bean)검증기를 이용해 객체의 제약 조건을 검증하도록 지시.
                             // JSR표준기술(X) 스프링 프레임워크에서 제공하는 어노테이션 및 기능
         //AOP를 기반으로 스프링 빈의 유효성 검증을 위해 사용. 클래스에는 Validated 메소드네는 Valid 붙여준다.
         //유효성 검증에 실패할 경우 ConstratintViolationException이 발생.
-        service.register(basicBoard);
+
+        log.info("registerController 정보 확인: "
+                + boardRequest.getBoardNo() + boardRequest.getWriter() + boardRequest.getTitle() );
+
+        service.register(boardRequest);
     }
 
     //목록
@@ -33,18 +39,21 @@ public class BasicBoardController {
     public List<BasicBoard> basicBoardList() {
         return service.list();
     }
-//
-//    //상세보기
-//    public BasicBoard basicBoardRead() {
-//
-//    }
-//
-//
+
+    @GetMapping("/{boardNo}")
+    //상세보기
+    public BasicBoard basicBoardRead(
+            @PathVariable ("boardNo") Integer boardNo){
+            //@PathVariable은 URL 경로에 변수를 넣어주는 어노테이션이다.
+        return service.read(boardNo);
+    }
+
+
 //    //수정
 //    public BasicBoard basicBoardModify() {
 //
 //    }
-//
+
     //삭제
     @DeleteMapping("/{boardNo}")
     public void basicBoardRemove(
