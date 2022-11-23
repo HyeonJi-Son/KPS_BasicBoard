@@ -1,9 +1,10 @@
 //게시글 수정 삭제 버튼 필요
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { readBoard } from "../../reducer/boardReducer";
+import { deleteBoard, readBoard } from "../../reducer/boardReducer";
+import { Button, Modal, Input } from 'antd';
 //import styles from './Layout.module.css';
 
 
@@ -19,11 +20,36 @@ export function BoardRead() {
     const { boardNo } = useParams(); //route에서 제공되는 url Parameter의 hook
     const dispatch = useDispatch();
     const { board } = useSelector((state) => state.board);
+    const [isOpen, setIsOpen] = useState(false);
+    const [data, setData] = useState({
+        boardNo
+    });
     
     useEffect(() => {
         dispatch(readBoard(boardNo)); // action을 dispatch해서 실행
+        // dispatch(deleteBoard(boardNo))
     }, [dispatch, boardNo])
 
+    const onDeleteModal = () => {
+        setIsOpen(true);
+        //Modal은 true일 때 open되고 false일 때는 닫힌다.
+    }
+
+    const handleOk = () => {
+        //여기에서 확인 버튼을 누르면 boardReducer의 delete 작동
+        console.log(data);
+        dispatch(deleteBoard(data));
+    }  
+
+    const handleCancel = () => {
+        console.log("취소");
+        setIsOpen(false);
+        setData({...data, checkPw: ''})
+    }
+
+    const changeInput = (e) => {
+        setData({...data, [e.target.name]: e.target.value})
+    }
 
     return (
         <form>
@@ -49,7 +75,14 @@ export function BoardRead() {
                 </tbody>
             </table>
             <button type="button"> 수정 </button>
-            <button type="button"> 삭제 </button>
+            <Button type="button" onClick={onDeleteModal}> 삭제 </Button>
+            <Modal title="Basic Modal" open={isOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Input.Password name="checkPw" onChange={changeInput}
+                    value={data.checkPw}
+                    placeholder="비밀번호를 입력해주세요"
+                    // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                />
+            </Modal>
         </form>
     )
 }

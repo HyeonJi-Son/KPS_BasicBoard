@@ -28,7 +28,7 @@ export function BoardList() {
                         <th> 번호 </th>
                         <th> 제목 </th>
                         <th> 작성자 </th>
-                        <th> 작성 시간 </th>
+                        <th> 작성 일자 </th>
                     </tr>
                 </thead>
                 <tbody>

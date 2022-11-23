@@ -7,6 +7,7 @@ const boardSlice = createSlice({
     initialState: { //초기 값들.
         boards: [], //boards 배열이 들어옴.
         board: null,
+        checkAnswer: null,
         //그냥 객체가 들어올 때는 board: null이나 기본값.
     },
     reducers: { //state들의 값을 변경해주는 action. 
@@ -33,6 +34,7 @@ export const findAllBoard = () => async (dispatch) => {
     dispatch(boardSlice.actions.setBoards(response.data));
 }
 
+                    // boardNo를 전달받음
 export const readBoard = (boardNo) => async (dispatch) => { //list에서 boardReadPage로 이동한 다음 랜더 되기 전
     const response = await axios.get(`/basicBoard/${boardNo}`);
     dispatch(boardSlice.actions.setBoard(response.data))
@@ -53,4 +55,21 @@ export const registBoard = (data) => () => {
         }, (error) => { //<-여기서 error는 함수 형태의 인자이다.
             console.error(error); //에러가 났을 때 사용하는 함수 형식
         })
+}
+
+export const deleteBoard = (data) => () => {
+    console.log(data);
+    axios
+        .delete(`/basicBoard/${data.boardNo}/${data.checkPw}`)
+        .then(result => {
+            if (!result.data) {
+                alert("너 틀렸어");
+                return;
+            }
+            
+            alert("삭제했어");
+            window.location = "/boardListPage";
+        }, error => {
+            console.log(error.message);
+        });
 }
