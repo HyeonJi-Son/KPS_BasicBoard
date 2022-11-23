@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,9 +32,11 @@ public class BasicBoard {
     private String password;
 
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date regDate;
 
     @UpdateTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date upDates;
 
     public BasicBoard(Long boardNo, String title, String writer, String content, String password) {

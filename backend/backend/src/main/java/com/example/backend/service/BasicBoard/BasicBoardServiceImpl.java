@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Basic;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +23,7 @@ public class BasicBoardServiceImpl implements BasicBoardService {
     // 등록, 목록, 상세보기, 수정, 삭제
 
 
+    //게시글 암호를 암호화 처리해주는 method
     private String passwordEncode(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         /* MessageDigest 클래스의 getInstance() 메소드의 매개변수에 "SHA-256" 알고리즘 이름을 지정.
@@ -34,6 +34,16 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         return String.format("%64x", new BigInteger(1, md.digest()));
               //64자리의 문자열 형태로 반환한다.
     }
+
+//    private boolean passwordCheck(String password) {
+//        /*
+//        1. frontend에서 받아온 password 데이터를 method 사용하여 암호화 시킨다.
+//        2. 기존의 boardNo가 갖고 있는 password 문자열과 동일한지 확인한다.
+//            - SHA-256만 이용했기 때문에 암호화 시키면 같은 문자열이 된다.
+//         */
+//        String checkPassword = this.passwordEncode(password);
+//
+//    }
 
     @Override
     public BasicBoard register (BoardRequest boardRequest) throws NoSuchAlgorithmException {
@@ -87,12 +97,34 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         return readBoard.get(); //if에 걸리지 않는 경우 readBoard결과를 return
     }
 
+
 //    @Override
 //    public BasicBoard modify (BasicBoard basicBoard);
 
     @Override
-    public void remove (Integer boardNo) {
-        repository.deleteById(Long.valueOf(boardNo));
+    public boolean remove (Long boardNo, String checkPw) throws IllegalArgumentException, NoSuchAlgorithmException { //boardNo와 대조해야하는 pw 모두 받아오도록 한다.
+        /*
+        1. String pw를 암호화 method에 돌린다.
+        2. 암호화 된 pw를 기존의 password에 저장된 문자열과 같은지 확인한다.
+            - 이 때 기존 password를 찾는 기준은 boardNo이다.
+        3. if 두 문자열이 동일하다면 return true / 아니라면 return false
+         */
+
+        //encodePassword 변수에 담는 값 = passwordEncode 함수가 작동하여 return된 값
+        String encodePassword = this.passwordEncode(checkPw);
+
+        BasicBoard findBoard = repository.findByBoardNoAndPassword(boardNo, encodePassword);
+        System.out.println("findBoard = " + findBoard);
+
+
+        if(findBoard != null) {
+            repository.deleteById(Long.valueOf(boardNo));
+            return true;
+        } else {
+            //null이라도 반환되어야 하나? 그럼 여기도 void가 아니라 boolean 같은 거 사용하게 만들어줘야할까?
+            return false;
+        }
+
     };
 
 

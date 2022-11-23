@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.controller.request.BoardCheckRequest;
 import com.example.backend.controller.request.BoardRequest;
 import com.example.backend.entity.BasicBoard;
 import com.example.backend.entity.User;
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -58,10 +61,11 @@ public class BasicBoardController {
 //    }
 
     //삭제
-    @DeleteMapping("/{boardNo}")
-    public void basicBoardRemove(
-            @PathVariable("boardNo") Integer boardNo) { service.remove(boardNo); }
-
+    @DeleteMapping("/{boardNo}/{checkPw}")
+    public boolean basicBoardRemove (@PathVariable("boardNo") Long boardNo,
+                                  @PathVariable("checkPw") String checkPw) throws IllegalArgumentException, NoSuchAlgorithmException {
+        return service.remove(boardNo, checkPw);
+    }
 
 
 /* front와 back 서로 데이터를 잘 주고받는 상태인지 확인하기 위해 작성했던 테스트용도의 controller다.
