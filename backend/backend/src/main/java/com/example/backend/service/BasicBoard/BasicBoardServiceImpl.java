@@ -119,19 +119,22 @@ public class BasicBoardServiceImpl implements BasicBoardService {
          */
 
         //encodePassword 변수에 담는 값 = passwordEncode 함수가 작동하여 return된 값
-        String encodePassword = this.passwordEncode(checkPw);
 
-        BasicBoard findBoard = repository.findByBoardNoAndPassword(boardNo, encodePassword);
-        System.out.println("findBoard = " + findBoard);
+        boolean answerCheck = this.passwordCheck(boardNo, checkPw);
 
-
-        if(findBoard != null) {
-            repository.deleteById(Long.valueOf(boardNo));
-            return true;
-        } else {
-            //null이라도 반환되어야 하나? 그럼 여기도 void가 아니라 boolean 같은 거 사용하게 만들어줘야할까?
-            return false;
+        if (answerCheck) {
+            repository.deleteById(boardNo);
         }
+
+        return answerCheck;
+
+//        if(findBoard != null) {
+//            repository.deleteById(Long.valueOf(boardNo));
+//            return true;
+//        } else {
+//            //null이라도 반환되어야 하나? 그럼 여기도 void가 아니라 boolean 같은 거 사용하게 만들어줘야할까?
+//            return false;
+//        }
 
     };
 
