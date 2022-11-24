@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import BoardList from '../../components/BasicBoard/BoardList';
+import BoardListForm from '../../components/BasicBoard/BoardListForm';
 //import styles from './Layout.module.css';
 
 export function BoardListPage() {
@@ -11,7 +11,7 @@ export function BoardListPage() {
             <Link to="/boardRegisterPage">
                 <button>글작성</button>
             </Link>
-            <BoardList />
+            <BoardListForm />
         </div>
     )
 }

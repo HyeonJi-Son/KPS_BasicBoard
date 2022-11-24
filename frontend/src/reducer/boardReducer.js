@@ -7,7 +7,6 @@ const boardSlice = createSlice({
     initialState: { //초기 값들.
         boards: [], //boards 배열이 들어옴.
         board: null,
-        checkAnswer: null,
         //그냥 객체가 들어올 때는 board: null이나 기본값.
     },
     reducers: { //state들의 값을 변경해주는 action. 
@@ -57,17 +56,51 @@ export const registBoard = (data) => () => {
         })
 }
 
+export const boardPwCheck = (data) => () => {
+    console.log(data);
+    axios
+        .post(`/basicBoard/pwCheck/${data.boardNo}`, {
+            checkPw: data.checkPw
+        })
+        //post는 body를 담을 수 있으니까 data.checkPw로 보내보자
+        .then(result => {
+            if (!result.data) {
+                alert("잘못된 비밀번호 입니다.");
+                return;
+            }
+            
+            alert("게시글 수정 페이지로 이동합니다.");
+            window.location = `/boardModifyPage/${data.boardNo}`;
+        }, error => {
+            console.log(error.message);
+        });
+}
+
+export const modifyBoard = (data) => () => {
+    axios
+        .put(`/basicBoard/${data.boardNo}`, data)
+        .then(() => { //.then은 axios에서 통신이 끝나고 데이터를 받아오기까지 대기
+            alert("게시글 수정 성공")
+            window.location = `/boardReadPage/${data.boardNo}`;
+            // 1. '/boardReadPage/' + board.boardNo; 
+            // 2. `/boardReadPage/${board.boardNo}`
+
+        }, (error) => { //<-여기서 error는 함수 형태의 인자이다.
+            console.error(error); //에러가 났을 때 사용하는 함수 형식
+        })
+}
+
 export const deleteBoard = (data) => () => {
     console.log(data);
     axios
         .delete(`/basicBoard/${data.boardNo}/${data.checkPw}`)
         .then(result => {
             if (!result.data) {
-                alert("너 틀렸어");
+                alert("잘못된 비밀번호 입니다.");
                 return;
             }
             
-            alert("삭제했어");
+            alert("게시글이 삭제되었습니다.");
             window.location = "/boardListPage";
         }, error => {
             console.log(error.message);
