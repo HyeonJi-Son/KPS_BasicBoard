@@ -63,12 +63,14 @@ public class BasicBoardController {
     }
 
 
-//    //수정
-//    @PutMapping("/{boardNo}") //mapping을 보면 수정할 걸 알 수 있으니까 /modify 붙이지 않아도 OK
-//    public BasicBoard basicBoardModify(
-//            @PathVariable("boardNo") Long boardNo, String checkPw) {
-//
-//    }
+    //수정
+    @PutMapping("/{boardNo}") //mapping을 보면 수정할 걸 알 수 있으니까 /modify 붙이지 않아도 OK
+    public BasicBoard basicBoardModify(
+            @PathVariable("boardNo") Long boardNo,
+            @RequestBody BoardRequest boardRequest) {
+
+        return service.modify(boardRequest);
+    }
 
     //삭제
     @DeleteMapping("/{boardNo}/{checkPw}")

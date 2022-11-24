@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -48,7 +49,11 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         return false;
     }
 
+    //- ↑ method --------------------------------------------------------
+
+    //@Transactional 어노테이션 사용의 단점: 모든 serviceImplement 하나마다 붙여줘야 한다.
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BasicBoard register (BoardRequest boardRequest) throws NoSuchAlgorithmException {
         //encodePassword 변수에 담는 값 = passwordEncode 함수가 작동하여 return된 값
         String encodePassword = this.passwordEncode(boardRequest.getPassword());
@@ -103,13 +108,22 @@ public class BasicBoardServiceImpl implements BasicBoardService {
     @Override
     public boolean pwCheck(Long boardNo, String checkPw) throws NoSuchAlgorithmException {
         return this.passwordCheck(boardNo, checkPw);
-
     }
 
-//    @Override
-//    public BasicBoard modify (BasicBoard basicBoard);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BasicBoard modify (BoardRequest boardRequest) {
+        BasicBoard basicBoardEntity = new BasicBoard(
+                boardRequest.getBoardNo(), boardRequest.getTitle(), boardRequest.getWriter(),
+                boardRequest.getContent(), boardRequest.getPassword()
+        );
+        //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
+
+        return repository.save(basicBoardEntity);
+    };
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean remove (Long boardNo, String checkPw) throws IllegalArgumentException, NoSuchAlgorithmException { //boardNo와 대조해야하는 pw 모두 받아오도록 한다.
         /*
         1. String pw를 암호화 method에 돌린다.
@@ -121,12 +135,14 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         //encodePassword 변수에 담는 값 = passwordEncode 함수가 작동하여 return된 값
 
         boolean answerCheck = this.passwordCheck(boardNo, checkPw);
+        // boolean변수 answerCheck의 값은
+            //passwordCheck method에 boardNo, checkPw를 넣어 return받은 값과 같다.
 
-        if (answerCheck) {
-            repository.deleteById(boardNo);
+        if (answerCheck) { //만약 answerCheck=true 라면
+            repository.deleteById(boardNo); //repository에서 게시글 삭제
         }
 
-        return answerCheck;
+        return answerCheck; //false든 true든 결과는 return한다.
 
 //        if(findBoard != null) {
 //            repository.deleteById(Long.valueOf(boardNo));
