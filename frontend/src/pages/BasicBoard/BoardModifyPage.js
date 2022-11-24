@@ -5,7 +5,7 @@ import BoardModifyForm from '../../components/BasicBoard/BoardModifyForm';
 
 export function BoardModifyPage() {
     return (
-        <div>
+        <div align="center">
             <h1>BoardModifyPage</h1>
             <BoardModifyForm />
         </div>

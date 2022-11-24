@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { registBoard } from '../../reducer/boardReducer';
+import { Button, Form, Input } from 'antd';
+import styles from '../BasicBoard/BoardComponent.module.css'
 
 
 export function BoardRegisterForm() {
@@ -23,34 +25,42 @@ export function BoardRegisterForm() {
                         //--------- <- 인자로 change에서 만들어준 data를 보내준다.
     }
 
+    const { TextArea } = Input;
+
     return (
         <form onSubmit={submitForm}>
             <Link to="/boardListPage">
-                <button type="button">목록</button>
+                <Form.Item wrapperCol={{ offset: 1, span: 16, }} >           
+                    <Button type="default"> 목록 </Button>
+                </Form.Item>
             {/* button 태그를 사용할 때는 꼭 type을 적어두어야 한다. 기본은 submit(즉, 누르면 새로고침됨) */}
             </Link>
-            <table>
+
+            <table className={styles.tableTwo}>
                 <tbody>
                     <tr>
                         <th> 제목 </th>
-                        <td><input type="text" name="title" onChange={changeInput} /> </td>
+                        <td><Input type="text" name="title" onChange={changeInput} /> </td>
                     </tr>
                     <tr>
                         <th> 작성자 </th>
-                        <td><input type="text" name="writer" onChange={changeInput} /> </td>
+                        <td><Input type="text" name="writer" onChange={changeInput} /> </td>
                     </tr>
                     <tr>
                         <th> 비밀번호 </th>
-                        <td><input type="password" name="password" onChange={changeInput} /> </td>
+                        <td><Input type="password" name="password" onChange={changeInput} /> </td>
                     </tr>
                     <tr>
                         <th> 본문 </th>
-                        <td><textarea rows="10" cols="22" name="content" onChange={changeInput} /> </td>
+                        <td><TextArea rows="10" cols="22" name="content" onChange={changeInput} /> </td>
                         {/* rows: 세로사이즈/ cols: 가로사이즈  */}
                     </tr>
                 </tbody>
             </table>
-            <button> 작성 완료 </button>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16, }} >           
+                <Button type="primary" htmlType="submit"> 작성 완료 </Button>
+            </Form.Item>
         </form>
     )
 }

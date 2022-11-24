@@ -2,13 +2,12 @@
 
 import React from 'react';
 import BoardReadForm from '../../components/BasicBoard/BoardReadForm'
-//import styles from './Layout.module.css';
 
 
 export function BoardReadPage() {
     return (
-        <div>
-            <h1>BoardReadPage</h1>
+        <div align="center">
+            <h1>Board Read Page</h1>
             <BoardReadForm />
         </div>
     )

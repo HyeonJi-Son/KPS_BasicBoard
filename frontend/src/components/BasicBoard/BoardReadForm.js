@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { boardPwCheck, deleteBoard, readBoard } from "../../reducer/boardReducer";
-import { Button, Modal, Input } from 'antd';
-//import styles from './Layout.module.css';
+import { Button, Modal, Input, Descriptions, Space, Form } from 'antd';
+import styles from '../BasicBoard/BoardComponent.module.css'
 
 
 export function BoardReadForm() { 
@@ -65,46 +65,42 @@ export function BoardReadForm() {
     }
 
     return (
-        <form>
-            <Link to="/boardListPage">
-                <button type="button">목록</button>
-            {/* button 태그를 사용할 때는 꼭 type을 적어두어야 한다. 기본은 submit(즉, 누르면 새로고침됨) */}
-            </Link>
-            <table>
-                <tbody>
-                    <tr>
-                        <th> 제목 </th>
-                        <td> {board?.title} </td>
-                    </tr>
-                    <tr>
-                        <th> 작성자 </th>
-                        <td> {board?.writer} </td>
-                    </tr>
-                    <tr>
-                        <th> 본문 </th>
-                        <td> {board?.content}</td>
-                        {/* rows: 세로사이즈/ cols: 가로사이즈  */}
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" onClick={onModifyModal}> 수정 </button>
-            <Modal title="Modify Modal" open={isModifyOpen} onOk={modifyOk} onCancel={handleCancel}>
-                <Input.Password name="checkPw" onChange={changeInput}
-                    value={data.checkPw}
-                    placeholder="비밀번호를 입력해주세요"
-                    // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                />
-            </Modal>
+        <div align="center">
+        <form className={styles.tableTwo}>
+            <Form.Item wrapperCol={{ offset: 1, span: 1, }}>
+                <Link to="/boardListPage">
+                    <Button type="default">목록</Button>
+                    {/* button 태그를 사용할 때는 꼭 type을 적어두어야 한다. 기본은 submit(즉, 누르면 새로고침됨) */}
+                </Link>
+            </Form.Item>
 
-            <Button type="button" onClick={onDeleteModal}> 삭제 </Button>
-            <Modal title="Delete Modal" open={isOpen} onOk={deleteOk} onCancel={handleCancel}>
-                <Input.Password name="checkPw" onChange={changeInput}
-                    value={data.checkPw}
-                    placeholder="비밀번호를 입력해주세요"
-                    // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                />
-            </Modal>
+            <Descriptions bordered>
+            <Descriptions.Item label="제목">{board?.title}</Descriptions.Item>
+            <Descriptions.Item label="작성자">{board?.writer}</Descriptions.Item>
+            <Descriptions.Item label="content">{board?.content}</Descriptions.Item>
+            </Descriptions>
+            
+            <Space size={[340, 16]} wrap>
+                    <Button type="primary" onClick={onModifyModal}> 수정 </Button>
+                    <Modal title="Modify Modal" open={isModifyOpen} onOk={modifyOk} onCancel={handleCancel}>
+                        <Input.Password name="checkPw" onChange={changeInput}
+                            value={data.checkPw}
+                            placeholder="비밀번호를 입력해주세요"
+                            // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                        />
+                    </Modal>
+
+                    <Button type="primary" danger onClick={onDeleteModal}> 삭제 </Button>
+                    <Modal title="Delete Modal" open={isOpen} onOk={deleteOk} onCancel={handleCancel}>
+                        <Input.Password name="checkPw" onChange={changeInput}
+                            value={data.checkPw}
+                            placeholder="비밀번호를 입력해주세요"
+                            // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                        />
+                    </Modal>
+            </Space>
         </form>
+    </div>
     )
 }
 

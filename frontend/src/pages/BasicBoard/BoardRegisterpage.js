@@ -1,13 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-//import styles from './Layout.module.css';
+//import axios from 'axios';
 
 import BoardRegisterForm from '../../components/BasicBoard/BoardRegisterForm';
 
 export function BoardRegisterPage() {
     return (
-        <div>
-            <h1>BoardRegisterPage</h1>
+        <div align="center">
+            <h1> Board Register Page </h1>
             <BoardRegisterForm />
         </div>
     )
