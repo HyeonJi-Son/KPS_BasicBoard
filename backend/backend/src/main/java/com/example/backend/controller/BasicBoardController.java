@@ -54,9 +54,19 @@ public class BasicBoardController {
         return service.read(boardNo);
     }
 
+    //비밀번호 확인
+    @PostMapping("/pwCheck/{boardNo}")
+    public boolean basicBoardModify (
+            @PathVariable("boardNo") Long boardNo,
+            @RequestBody BoardCheckRequest boardCheckRequest) throws NoSuchAlgorithmException {
+        return service.pwCheck(boardNo, boardCheckRequest.getCheckPw());
+    }
+
 
 //    //수정
-//    public BasicBoard basicBoardModify() {
+//    @PutMapping("/{boardNo}") //mapping을 보면 수정할 걸 알 수 있으니까 /modify 붙이지 않아도 OK
+//    public BasicBoard basicBoardModify(
+//            @PathVariable("boardNo") Long boardNo, String checkPw) {
 //
 //    }
 

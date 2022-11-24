@@ -35,15 +35,18 @@ public class BasicBoardServiceImpl implements BasicBoardService {
               //64자리의 문자열 형태로 반환한다.
     }
 
-//    private boolean passwordCheck(String password) {
-//        /*
-//        1. frontend에서 받아온 password 데이터를 method 사용하여 암호화 시킨다.
-//        2. 기존의 boardNo가 갖고 있는 password 문자열과 동일한지 확인한다.
-//            - SHA-256만 이용했기 때문에 암호화 시키면 같은 문자열이 된다.
-//         */
-//        String checkPassword = this.passwordEncode(password);
-//
-//    }
+    private boolean passwordCheck(Long boardNo, String checkPw) throws NoSuchAlgorithmException {
+        String encodePassword = this.passwordEncode(checkPw);
+
+        BasicBoard findBoard = repository.findByBoardNoAndPassword(boardNo, encodePassword);
+        System.out.println("findBoard = " + findBoard);
+
+        if(findBoard != null) {
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public BasicBoard register (BoardRequest boardRequest) throws NoSuchAlgorithmException {
@@ -97,6 +100,11 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         return readBoard.get(); //if에 걸리지 않는 경우 readBoard결과를 return
     }
 
+    @Override
+    public boolean pwCheck(Long boardNo, String checkPw) throws NoSuchAlgorithmException {
+        return this.passwordCheck(boardNo, checkPw);
+
+    }
 
 //    @Override
 //    public BasicBoard modify (BasicBoard basicBoard);

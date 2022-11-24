@@ -11,6 +11,7 @@ public interface BasicBoardService {
     public BasicBoard register (BoardRequest boardRequest) throws NoSuchAlgorithmException;
     public List<BasicBoard> list ();
     public BasicBoard read (Integer boardNo);
+    public boolean pwCheck (Long boardNo, String checkPw) throws NoSuchAlgorithmException;
     public boolean remove (Long boardNo, String checkPw) throws IllegalArgumentException, NoSuchAlgorithmException;
 
 }
