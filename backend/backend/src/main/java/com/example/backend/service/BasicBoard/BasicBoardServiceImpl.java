@@ -117,19 +117,27 @@ public class BasicBoardServiceImpl implements BasicBoardService {
         BasicBoard basicBoardEntity = new BasicBoard(
                 boardRequest.getBoardNo(), boardRequest.getTitle(), boardRequest.getWriter(),
                 boardRequest.getContent(), boardRequest.getPassword()
+                //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
         );*/
 
         //변경된 내역
+        /*
+        1. boardRequest에서 가져온 boardNo로 repository에서 해당 ID를 가진 내역을 찾아와 byId라는 변수의 값으로 선언한다.
+        2. byId의 값이 Null이면 IllegalArgumentException을 떨어트리고 아니라면 basicBoard의 값으로 선언한다.
+         */
         Optional<BasicBoard> byId = repository.findById(boardRequest.getBoardNo());
+        //Optional 클래스는 null이 올 수 있는 값을 감싸는 Wrapper 클래스.
+        //참조하더라도 NPE(Null Point Exception)이 발생하지 않도록 도와준다.
+
 
         BasicBoard basicBoard = byId.orElseThrow(IllegalArgumentException::new);
         //가져온 byId 내역이 Null이면 IllegalArgumentException을 떨어트려라.
             //IllegalArgumentException: 적합하지 않은, 적절하지 못한 인자를 메소드에 넘겨줬을때 발생
         //아니라면 basicBoard를 사용하면 된다.
-        basicBoard.setTitle(basicBoard.getTitle());
-        basicBoard.setWriter(basicBoard.getWriter());
-        basicBoard.setContent(basicBoard.getContent());
-        //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
+        basicBoard.setTitle(boardRequest.getTitle());
+        basicBoard.setWriter(boardRequest.getWriter());
+        basicBoard.setContent(boardRequest.getContent());
+
 
         return repository.save(basicBoard);
     };
