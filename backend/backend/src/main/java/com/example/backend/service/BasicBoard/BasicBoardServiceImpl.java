@@ -113,13 +113,25 @@ public class BasicBoardServiceImpl implements BasicBoardService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BasicBoard modify (BoardRequest boardRequest) {
+        /* 기존 작성한 내역
         BasicBoard basicBoardEntity = new BasicBoard(
                 boardRequest.getBoardNo(), boardRequest.getTitle(), boardRequest.getWriter(),
                 boardRequest.getContent(), boardRequest.getPassword()
-        );
+        );*/
+
+        //변경된 내역
+        Optional<BasicBoard> byId = repository.findById(boardRequest.getBoardNo());
+
+        BasicBoard basicBoard = byId.orElseThrow(IllegalArgumentException::new);
+        //가져온 byId 내역이 Null이면 IllegalArgumentException을 떨어트려라.
+            //IllegalArgumentException: 적합하지 않은, 적절하지 못한 인자를 메소드에 넘겨줬을때 발생
+        //아니라면 basicBoard를 사용하면 된다.
+        basicBoard.setTitle(basicBoard.getTitle());
+        basicBoard.setWriter(basicBoard.getWriter());
+        basicBoard.setContent(basicBoard.getContent());
         //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
 
-        return repository.save(basicBoardEntity);
+        return repository.save(basicBoard);
     };
 
     @Override
