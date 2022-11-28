@@ -25,7 +25,7 @@ public class BasicBoardController {
 
     //void가 아니라 BasicBoard를 이용하도록 했다.
         //Why? - frontend에 등록과 동시에 return하고싶은 내용이 있기 때문에.
-    @PostMapping("/register")
+    @PostMapping()
     //등록
     public BasicBoard basicBoardRegister(@Validated @RequestBody BoardRequest boardRequest) throws NoSuchAlgorithmException {
         //@Validated 어노테이션: 빈(Bean)검증기를 이용해 객체의 제약 조건을 검증하도록 지시.
@@ -61,7 +61,6 @@ public class BasicBoardController {
             @RequestBody BoardCheckRequest boardCheckRequest) throws NoSuchAlgorithmException {
         return service.pwCheck(boardNo, boardCheckRequest.getCheckPw());
     }
-
 
     //수정
     @PutMapping("/{boardNo}") //mapping을 보면 수정할 걸 알 수 있으니까 /modify 붙이지 않아도 OK

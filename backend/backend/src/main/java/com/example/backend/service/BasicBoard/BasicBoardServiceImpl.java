@@ -20,7 +20,7 @@ import java.util.Optional;
 public class BasicBoardServiceImpl implements BasicBoardService {
 
     @Autowired
-    BasicBoardRepository repository;
+    private BasicBoardRepository repository;
     // 등록, 목록, 상세보기, 수정, 삭제
 
 
@@ -113,12 +113,6 @@ public class BasicBoardServiceImpl implements BasicBoardService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public BasicBoard modify (BoardRequest boardRequest) {
-        /* 기존 작성한 내역
-        BasicBoard basicBoardEntity = new BasicBoard(
-                boardRequest.getBoardNo(), boardRequest.getTitle(), boardRequest.getWriter(),
-                boardRequest.getContent(), boardRequest.getPassword()
-                //함수를 통해서 & 생성자를 통한 데이터 전달에는 순서가 중요하다.
-        );*/
 
         //변경된 내역
         /*
