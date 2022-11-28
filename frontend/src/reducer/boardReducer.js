@@ -41,7 +41,7 @@ export const readBoard = (boardNo) => async (dispatch) => { //list에서 boardRe
 
 export const registBoard = (data) => () => {
     axios
-        .post('basicBoard/register', data) //PostMapping을 타고 감.
+        .post('basicBoard', data) //PostMapping을 타고 감.
                                 // ------- <-아까 호출해서 넣어준 data이다.
                                 // + , 세번째는 옵션을 작성하게 됨.(지금은 생략)
         .then((result) => { //.then은 axios에서 통신이 끝나고 데이터를 받아오기까지 대기
@@ -68,9 +68,10 @@ export const boardPwCheck = (data) => () => {
                 alert("잘못된 비밀번호 입니다.");
                 return;
             }
-            
+
             alert("게시글 수정 페이지로 이동합니다.");
             window.location = `/boardModifyPage/${data.boardNo}`;
+            sessionStorage.setItem('allowModify', true);
         }, error => {
             console.log(error.message);
         });
@@ -81,6 +82,7 @@ export const modifyBoard = (data) => () => {
         .put(`/basicBoard/${data.boardNo}`, data)
         .then(() => { //.then은 axios에서 통신이 끝나고 데이터를 받아오기까지 대기
             alert("게시글 수정 성공")
+            delete sessionStorage.allowModify;
             window.location = `/boardReadPage/${data.boardNo}`;
             // 1. '/boardReadPage/' + board.boardNo; 
             // 2. `/boardReadPage/${board.boardNo}`
