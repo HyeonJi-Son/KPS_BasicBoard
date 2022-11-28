@@ -9,7 +9,12 @@ import BoardListPage from './pages/BasicBoard/BoardListPage';
 import BoardModifyPage from './pages/BasicBoard/BoardModifyPage';
 import BoardReadPage from './pages/BasicBoard/BoardReadPage';
 import BoardRegisterPage from './pages/BasicBoard/BoardRegisterpage';
+
+import SignUpPage from './pages/member/SignUpPage';
+
 import NotFound from './pages/NotFound';
+
+
 
 function App() {
 
@@ -21,6 +26,8 @@ function App() {
       <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
       <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
       <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
+
+      <Route path="/signUpPage" element={<SignUpPage /> }></Route>
     </Routes>
     //<Login/>
   );

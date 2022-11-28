@@ -16,6 +16,7 @@ export function BoardModifyForm() {
 
     useEffect(() => {
         dispatch(readBoard(boardNo));
+        delete sessionStorage.allowModify;
     }, [dispatch, boardNo])
     //첫번째 인자는 함수
     //두번째 인자는 빈 배열이 항상 들어옴. 의존성 주입

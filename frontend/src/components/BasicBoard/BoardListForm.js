@@ -28,25 +28,28 @@ export function BoardList() {
         {
           title: '번호',
           dataIndex: 'boardNo',
+          key: 'boardNo',
         },
         {
             title: '제목',
             dataIndex: 'title',
+            key: 'title',
             render: (text, board) => <Link to ={`/boardReadPage/${board.boardNo}`} >{text}</Link>,
         },
         {
           title: '작성자',
           dataIndex: 'writer',
+          key: 'writer',
         },
         {
           title: '작성 일자',
           dataIndex: 'regDate',
+          key: 'regDate',          
         },
       ];
 
     return (
         <div>
-
             <Table
                 columns={columns}
                 dataSource={boards}

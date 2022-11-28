@@ -30,7 +30,19 @@ export default boardSlice.reducer;
 //다른 컴포넌트에서도 상태를 변경할 수 있도록 해주는 action 함수
 export const findAllBoard = () => async (dispatch) => {
     const response = await axios.get('/basicBoard/list');
-    dispatch(boardSlice.actions.setBoards(response.data));
+
+    //console.info("before", response.data);
+
+    const data = response.data.map(item => {
+        return {
+            ...item,
+            key: item.boardNo
+        }
+    });
+
+    //console.info("after", data);
+
+    dispatch(boardSlice.actions.setBoards(data));
 }
 
                     // boardNo를 전달받음
@@ -82,7 +94,6 @@ export const modifyBoard = (data) => () => {
         .put(`/basicBoard/${data.boardNo}`, data)
         .then(() => { //.then은 axios에서 통신이 끝나고 데이터를 받아오기까지 대기
             alert("게시글 수정 성공")
-            delete sessionStorage.allowModify;
             window.location = `/boardReadPage/${data.boardNo}`;
             // 1. '/boardReadPage/' + board.boardNo; 
             // 2. `/boardReadPage/${board.boardNo}`
