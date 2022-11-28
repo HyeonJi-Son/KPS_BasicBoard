@@ -21,13 +21,14 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />}></Route>
+      <Route path="/signUpPage" element={<SignUpPage /> }></Route>
+      
       <Route path="/boardListPage" element={<BoardListPage />}></Route>
       <Route path="/boardModifyPage/:boardNo" element={sessionStorage.allowModify ? <BoardModifyPage /> : <NotFound/>}></Route>
       <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
       <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
       <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
 
-      <Route path="/signUpPage" element={<SignUpPage /> }></Route>
     </Routes>
     //<Login/>
   );
