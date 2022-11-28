@@ -54,7 +54,7 @@ export function Login() {
                     ]}
                 >
                     <Input.Password />
-                    </Form.Item>
+                </Form.Item>
 
                     <Form.Item
                     wrapperCol={{ offset: 8, span: 16, }}
@@ -63,7 +63,13 @@ export function Login() {
                             <Button type="primary" htmlType="submit">
                                 로그인
                             </Button>
-                        </Link>        
+                        </Link>
+                        &ensp;&ensp;
+                        <Link to="/signUpPage">
+                            <Button type="primary" htmlType="submit">
+                                회원가입
+                            </Button>
+                        </Link>          
                     </Form.Item>
             </Form>
         </div>
