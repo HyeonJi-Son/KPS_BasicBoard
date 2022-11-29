@@ -2,6 +2,7 @@ package com.example.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Member {
 
     @Id
@@ -19,7 +21,8 @@ public class Member {
     @Column(length = 32, nullable = false)
     private String nickName;
 
-    @Column(length = 128, nullable = false)
+    @Column(length = 128, nullable = false, unique = true)
+                                            //중복을 허용하지 않음
     private String email;
 
     @Column
@@ -35,4 +38,11 @@ public class Member {
     @UpdateTimestamp
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date upDates;
+
+    public Member(String nickName, String email, String password, Integer role) {
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
