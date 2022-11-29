@@ -12,6 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/*@EnableWebSecurity: 해당 어노테이션을 선언하면 SpringSecurityFilterChain이 자동으로 포함된다.
+    - WebSecurityConfigurerAdapter를 상속받을 수도 있...지만!
+    - WebSecurityConfigurerAdapter는 앞으로 지원하지 않을 예정이니 사용을 지양해달라는 표시를 확인할 수 있음.
+  @Configuration : 설정파일을 만들기 위한 어노테이션&Bean을 등록하기 위한 어노테이션이다.
+    - 스프링 IOC Container에게 해당 클래스가 Bean 구성 Class임을 알려준다.
+ */
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
@@ -28,7 +35,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers("/basicBoard/**").permitAll() //permitAll<-권한 상관없이 모두 접근 가능.
+                .antMatchers("/basicBoard/**", "/member/**").permitAll() //permitAll<-권한 상관없이 모두 접근 가능.
                 .anyRequest().authenticated()
                 .and()
 //                .authorizeRequests(authorize -> authorize
