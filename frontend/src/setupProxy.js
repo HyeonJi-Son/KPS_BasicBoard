@@ -9,7 +9,14 @@ module.exports=function(app){
             target:"http://localhost:8080",
             changerOrigin : true,
         })
-    );
+    ),
+    app.use(
+        "/member",
+        createProxyMiddleware({
+            target:"http://localhost:8080",
+            changerOrigin : true,
+        })
+    )
 };
 
 /*이 Proxy설정이 되어있는 부분을 잊고 Reducer.js에서 전체 경로를 작성하면

@@ -23,12 +23,33 @@ export default memberSlice.reducer;
 
 //회원가입 reducer의 기본적인 형식은 게시글 등록과 같다.
 export const signUp = (data) => () => {
+    const send = {...data, role: 2}
+    //role 1은 관리자, 2는 일반회원으로 설정하려고 한다.
+    //가입은 일반 회원만 하는 거니까 무조건 role:2로 값을 넣어주면 될 듯.
+    console.info("회원가입시도", send);
+
     axios
-        .post('member', data) //postMapping 타고 가게 될 것임.
-        .then(() => {
+        .post('member', send) //postMapping 타고 가게 될 것임.
+        .then((result) => {
             alert("회원 가입 성공!")
             window.location = '/'; //로그인 페이지로 이동
         }, (error) => {
             console.error(error);
+        })
+}
+
+export const emailCheck = (data) => () => {
+    axios
+        .post('member/emailCheck', data)
+        .then(result => {
+            if(!result.data) {
+                alert("이메일 중복");
+                return;
+            }
+
+            alert("이메일 사용 가능!")
+            return;
+        }, error => {
+            console.log(error.message);
         })
 }

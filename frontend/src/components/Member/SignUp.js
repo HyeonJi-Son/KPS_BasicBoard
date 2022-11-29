@@ -1,130 +1,58 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { useDispatch } from 'react-redux';
 import { signUp } from '../../reducer/memberReducer';
 //import styles from './Layout.module.css';
 
 export function SignUp() {
-    const [data, setData] = useState({});
-    //비어있는 처음 값 + 변화가 감지된 값 모두 useState에 넣어준다.
-
-    const dispatch = useDispatch;
+    const [data, setData] = useState({}); //처음의 값은 비어있음. 변화를 감지할 때 마다 추가됨.
+    //onChange의 변화를 감지하여 State에 넣어준다.
+        //이렇게 해주는 이벤트의 이름이 아래의 changeInput이다.
+    const dispatch = useDispatch();
 
     const changeInput = (e) => {
         setData({...data, [e.target.name]: e.target.value})
-    }   //기존 data에서 이벤트(input내용 변화) 감지된 name항목의 value를 추가하여 setData라고 해준다.
-
-    const { Option } = Select;
-
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
-    
-    const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-    };
-
-
-    const submitForm = (e) => { //form이 새로고침 될 때
-        e.preventDefault();
-        dispatch(signUp(data)); //signup
+            //... <- 기존에 있던 값을 펼친다는 듯.
+                        //변화가 감지되는 부분의 name를 찾음.
+                                        //해당 name의 value를 찾음
     }
 
-
+    const submitForm = (e) => { //submit 이벤트
+        e.preventDefault();//submit은 기본적으로 자동 새로고침 된다. 그걸 방지해주는 역할.
+        dispatch(signUp(data));//reducer의 액션(registBoard)을 호출해준다.
+                        //--------- <- 인자로 change에서 만들어준 data를 보내준다.
+    }
 
     return (
-        <form align="center" onSubmit={submitForm}>
-            <Link to="/">
-                <Button type="default" htmlType="submit">
-                    로그인
-                </Button>
-            </Link>
-            <br/><br/>
+        <form onSubmit={submitForm}>
 
-            <Form
-                name="basic"
-                labelCol={{ span: 8, }}
-                wrapperCol={{ span: 8, }}
-                initialValues={{ remember: true, }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off">
+            <table className="signupTable">
+                <tbody>
+                    <tr>
+                        <th> Nickname </th>
+                        <td><Input type="text" name="nickName" onChange={changeInput} /> </td>
+                    </tr>
+                    <tr>
+                        <th> Email </th>
+                        <td><Input type="text" name="email" onChange={changeInput} /> </td>
+                        <td> <Button type="default" onClick={emailCheck}> 중복확인 </Button></td>
+                    </tr>
+                    <tr>
+                        <th> Password </th>
+                        <td><Input type="password" name="password" onChange={changeInput} /> </td>
+                    </tr>
+                    <tr>
+                        <th> PasswordCheck </th>
+                        <td><Input type="password" name="passwordCheck" /> </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <Form.Item
-                    label="Nickname"
-                    name="nickname"
-                    rules={[
-                    {
-                        required: true,
-                        message: 'Please input your Nickname!',
-                    },
-                ]}>
-                    <Input placeholder="  닉네임을 입력하세요." onChange={changeInput}/>
-                </Form.Item>
-
-                <Form.Item
-                    label="EmailAddress"
-                    name="email"
-                    rules={[
-                    {
-                        required: true,
-                        message: 'Please input your Email Address!',
-                    },
-                ]}>
-                    <Input.Group compact onChange={changeInput}>
-                        <Input
-                            style={{
-                            width: '60%',
-                            }}
-                            placeholder="메일 아이디를 입력하세요."
-                        />
-                        <Select defaultValue="@edu-poly.com" style={{width: '40%'}}>
-                            <Option value="kps">@edu-poly.com</Option>
-                            <Option value="Naver">@naver.com</Option>
-                            <Option value="Google">@Google.com</Option>
-                        </Select>
-                    </Input.Group>
-                </Form.Item>
-
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                    {
-                        required: true,
-                        message: 'Please input your password!',
-                    },
-                ]}>
-                    <Input.Password placeholder="  비밀번호를 입력하세요." onChange={changeInput}/>
-                </Form.Item>
-
-                <Form.Item
-                    label="Password Check"
-                    name="passwordcheck"
-                    rules={[
-                    {
-                        required: true,
-                        message: 'Please input your password!',
-                    },
-                ]}>
-                    <Input.Password placeholder="  비밀번호를 확인합니다."/>
-                </Form.Item>
-
-                <Form.Item
-                    wrapperCol={{ offset: 8, span: 16, }}>
-
-                    <Link to="">
-                        <Button type="primary" htmlType="submit">
-                            회원가입
-                        </Button>
-                    </Link>
-
-                </Form.Item>    
-
-            </Form>
-
+            <Form.Item wrapperCol={{ offset: 8, span: 16, }} >           
+                <Button type="primary" htmlType="submit"> 회원 가입 </Button>
+            </Form.Item>
         </form>
+
     )
 }
 
