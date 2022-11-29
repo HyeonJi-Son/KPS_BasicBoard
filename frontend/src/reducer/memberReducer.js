@@ -7,17 +7,23 @@ const memberSlice = createSlice({
     initialState: {
         members: [], //배열로 들어옴
         member: null, //객체로 들어옴
+        checkedMail: false,
     },
     reducers: {
-        setMembers: (state, action) => {
+        setMembers: (state = this.initialState, action) => {
             state.members = [...action.payload] //배열로 들어오는 형태   
         },
         setMember: (state, action) => {
             state.member = {...action.payload} //객체로 들어오는 형태
+        },
+        setEmailChecked: (state, action) => {
+            state.checkedMail = action.payload;
         }
     },
 });
 
+
+export const {setEmailChecked} = memberSlice.actions;
 //memberSlice.reducer를 다른 곳에서도 사용할 수 있도록 export 달아주었음.
 export default memberSlice.reducer;
 
@@ -38,15 +44,16 @@ export const signUp = (data) => () => {
         })
 }
 
-export const emailCheck = (data) => () => {
+export const emailCheck = (data) => (dispatch) => {
     axios
         .post('member/emailCheck', data)
         .then(result => {
             if(!result.data) {
                 alert("이메일 중복");
+                dispatch(setEmailChecked(false))
                 return;
             }
-
+            dispatch(setEmailChecked(true))
             alert("이메일 사용 가능!")
             return;
         }, error => {
