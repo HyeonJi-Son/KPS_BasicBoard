@@ -11,11 +11,17 @@ export function SignUp() {
         password: '',
         passwordCheck: ''
     }); //처음의 값은 비어있음. 변화를 감지할 때 마다 추가됨.
-    //onChange의 변화를 감지하여 State에 넣어준다.
+    //onChange의 변화를 감지하여 들어온 데이터가 setData에 담김. State에 넣어준다.
         //이렇게 해주는 이벤트의 이름이 아래의 changeInput이다.
     const dispatch = useDispatch();
     const { checkedMail } = useSelector(state => state.member);
+                                    // state는 RootReducer. RootReducer가 가진 memberReducer를 사용하겠다는 뜻
+         // Reducer에 있는 initialState를 펼쳐서, 그 중 CheckedMail 값을 현재 파일에서 사용하겠다고 함.                            
+
     const [isValid, setIsValid] = useState(false);
+                                // useState의 기본값이 false
+        //isValid <- useState의 값 선언  = const isValid = false; 
+        //setIsValid <- 업데이트시켜주는 함수
 
     const changeInput = (e) => {
         setData({...data, [e.target.name]: e.target.value})
@@ -39,11 +45,6 @@ export function SignUp() {
         //checkedMail이 비어있거나 다르다면 회원가입 버튼 비활성화
     }
 
-    // const checkedMail = data.email();
-
-    //나는 현재 data에 있는 name이 email인 <Input> 속 내역을 checkedMail이라는 함수로 남기고 싶은데
-    //이것의 작성 방식이 뭔가 잘못되었다는 건 알겠다.
-
     const pwCheck = () => {
         //비밀번호 체크는 reducer를 쓸 필요는 없음. backend server 없이
         //현재 페이지의 password와 passwordCheck 를 비교하면 되는 거니까.
@@ -56,22 +57,27 @@ export function SignUp() {
     }
 
     const allowSignUp = () => {
+
+        //for...in 문 형식
+        //data["key"] 갯수만큼 돌아가는 반복문
         for (const key in data) {
-            if (!data[key]) {
-                return false;
+            if (!data[key]) { //data[key]가 비어있다면
+                return false; //false를 반환
             }
         }
         
-        if( !pwCheck() ){
+        if( !pwCheck() ){ //만약 pwCheck가 true가 아니라면 false를 반환
             return false;
         }
 
-        return true;
+        return true; //그 외에는 true를 반환
     }
 
     useEffect(() => {
         setIsValid(allowSignUp());
-    }, [data])
+    }, [data]) //data의 값이 업데이트 될 때마다
+                    //setIsValid는 allowSignUp 으로부터 true나 false 값을 반환 받는다.
+                    //setIsValid 함수가 값을 새로 반환받으면 isValid의 값이 변한다.
 
     return (
         <form onSubmit={submitForm}>
@@ -113,7 +119,9 @@ export function SignUp() {
                 <Button 
                     type="primary" 
                     htmlType="submit"
-                    disabled={!(checkedMail && isValid)}
+                    disabled={!(checkedMail && isValid)} //checkedMail과 isValid의 값이 모두 true여야
+                    //disabled={true} <-는 disable되도록 해준다는 뜻이니까
+                    //disabled={false} <-조건에 만족함.
                 > 회원 가입 </Button>
             </Form.Item>
         </form>
