@@ -7,7 +7,7 @@ import memberReducer from "./memberReducer"
                     //↓combineReducers가 Reducer들을 연결시켜주는 역할을 하는 함수.
 const RootReducer = combineReducers({
     board: boardReducer,
-    member: memberReducer
+    member: memberReducer   
 });
 
 export default RootReducer;

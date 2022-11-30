@@ -60,3 +60,19 @@ export const emailCheck = (data) => (dispatch) => {
             console.log(error.message);
         })
 }
+
+export const logIn = (data) => () => {
+    axios
+        .post('member/login', data)
+        .then(result => {
+            if(!result.data) { //null이 들어온 경우
+                alert("잘못된 Email 주소 혹은 비밀번호 입니다.");
+                return;
+            }
+            //발급받은 token을 어떻게 저장할까
+            alert("로그인 성공!");
+            window.location = '/boardListPage'; //로그인 성공하면 list페이지로 진입
+        }, error => {
+            console.log(error.message);
+        })
+}

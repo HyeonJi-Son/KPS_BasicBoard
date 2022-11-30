@@ -4,7 +4,7 @@ import './App.css';
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 
-import Login from "./pages/member/Login"
+import LoginPage from "./pages/member/LoginPage"
 import BoardListPage from './pages/BasicBoard/BoardListPage';
 import BoardModifyPage from './pages/BasicBoard/BoardModifyPage';
 import BoardReadPage from './pages/BasicBoard/BoardReadPage';
@@ -20,7 +20,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Login />}></Route>
+      <Route path="/" element={<LoginPage />}></Route>
       <Route path="/signUpPage" element={<SignUpPage /> }></Route>
       
       <Route path="/boardListPage" element={<BoardListPage />}></Route>
