@@ -39,6 +39,7 @@ public class BasicBoard {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date upDates;
 
+
     public BasicBoard(Long boardNo, String title, String writer, String content, String password) {
         this.boardNo = boardNo;
         this.title = title;

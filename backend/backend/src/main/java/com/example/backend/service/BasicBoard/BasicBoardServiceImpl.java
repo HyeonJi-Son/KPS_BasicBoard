@@ -1,6 +1,6 @@
 package com.example.backend.service.BasicBoard;
 
-import com.example.backend.controller.request.BoardRequest;
+import com.example.backend.controller.dto.request.BoardRequest;
 import com.example.backend.entity.BasicBoard;
 import com.example.backend.repository.BasicBoardRepository;
 import lombok.extern.slf4j.Slf4j;

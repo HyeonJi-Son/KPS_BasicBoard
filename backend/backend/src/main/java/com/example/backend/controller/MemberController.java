@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.controller.request.MemberRequest;
+import com.example.backend.controller.dto.request.MemberRequest;
 import com.example.backend.entity.Member;
 import com.example.backend.service.Member.MemberService;
 import lombok.extern.slf4j.Slf4j;

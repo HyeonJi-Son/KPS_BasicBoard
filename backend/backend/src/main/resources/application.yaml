@@ -21,9 +21,12 @@ spring:
     hibernate:
       ddl-auto: 'update'
 
-
   servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
 
+  jwt:
+    secret: koreapolyschoolprobationamadeasonprobationperiodassignment
+    #여긴 대체 뭘 어떻게 적는거야? 몇 byte이상의 key를 사용할지 적는 건지? 아니면 어떤 key를 사용할지 적는 건지??
+    ##이 자리에 적힌 문자열로 암호화를 한다.

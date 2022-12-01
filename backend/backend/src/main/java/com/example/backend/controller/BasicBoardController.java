@@ -1,19 +1,16 @@
 package com.example.backend.controller;
 
-import com.example.backend.controller.request.BoardCheckRequest;
-import com.example.backend.controller.request.BoardRequest;
+import com.example.backend.controller.dto.request.BoardCheckRequest;
+import com.example.backend.controller.dto.request.BoardRequest;
 import com.example.backend.entity.BasicBoard;
-import com.example.backend.entity.User;
 import com.example.backend.service.BasicBoard.BasicBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
