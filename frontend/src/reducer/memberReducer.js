@@ -65,6 +65,7 @@ export const logIn = (data) => () => {
     axios
         .post('member/login', data)
         .then(result => {
+            console.info("TOKEN", result.data)
             if(!result.data) { //null이 들어온 경우
                 alert("잘못된 Email 주소 혹은 비밀번호 입니다.");
                 return;

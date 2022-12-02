@@ -1,3 +1,4 @@
+/*
 package com.example.backend.security;
 
 import com.example.backend.security.jwt.JwtFilter;
@@ -18,7 +19,7 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
     //HttpSecurity클래스란?
         /*
         인증, 인가의 세부적인 기능을 설정할 수 있도록 API를 제공해주는 클래스.
-         */
+         *//*
 
     @Override
     public void configure(HttpSecurity http) {
@@ -30,3 +31,4 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
+*/

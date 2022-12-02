@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -29,6 +30,10 @@ import java.util.stream.Collectors;
          - Facade : 간략화된 인터페이스를 제공해주는 디자인 패턴
 @Component : Java Bean에 등록하지 않아도 자동 주입이 가능하도록 해주는 어노테이션이다.
              개발자가 직접 개발한 클래스를 Bean에 등록하기 위한 어노테이션이다.
+     - @Repository, @Service 어노테이션은 해당 클래스를 루트 컨테이너에 빈(Bean) 객체로 생성해주는 어노테이션
+        - @Service: 내부에서 자바 로직을 처리함
+     - @Component 는 이들의 부모 어노테이션으로 똑같이 루트 컨테이너에 Bean객체를 생성해준다.
+        - 하지만 가시성이 떨어져 사용을 덜 하는 경우가 있는 것도 같음...
  */
 @Slf4j
 @Component
@@ -43,7 +48,7 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
 
     //생성자
                     //이 @Value는 lombok(X), springframework.beans.factory.annotation.Value 소속
-    public TokenProvider(@Value("${jwt.secret}") String secretKey) { //@Value 어노테이션으로 yaml에 있는 secret key를 가져온 다음,
+    public TokenProvider(@Value("koreapolyschoolprobationamadeasonprobationperiodassignment") String secretKey) { //@Value 어노테이션으로 yaml에 있는 secret key를 가져온 다음,
         byte[] keyBytes = Decoders.BASE64.decode(secretKey); //가져온 secret key값을 Decode 한다.
         this.key = Keys.hmacShaKeyFor(keyBytes); //이후 의존성이 주입된 key 값으로 정한다.
     }
@@ -68,16 +73,16 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
                 - Authentication을 보관하는 역할을 함. SecurityContext를 통해 Authentication 객체를 꺼내올 수 있음.
          */
 
-        long now = (new Date().getTime()); //현재시각과 만료시각을 만든다.
-
+        long now = (new Date().getTime()); //토큰이 생성된 현재시각을 구한다.
+        //현재 시각 + 토큰 유지 최대시간 을 토큰 만료 시간으로 정해준다.
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         System.out.println(tokenExpiresIn);
 
         String accessToken = Jwts.builder() //jwt builder를 이용해 Token 생성
                 .setSubject(authentication.getName()) //토큰 용도
-                .claim(AUTHORITIES_KEY, authorities)
+                .claim(AUTHORITIES_KEY, authorities) //인증키를 claim형태로 만든다.
                 .setExpiration(tokenExpiresIn) //토큰 만료 시간
-                .signWith(key, SignatureAlgorithm.HS512) //내가 쓸 해쉬 암호를 써야 함.
+                .signWith(key, SignatureAlgorithm.HS256) //내가 쓸 해쉬 암호를 써야 함.
                 .compact(); //토큰 생성
 
         return TokenDto.builder() //TokenDto에 생성한 정보를 넣는다.
@@ -87,7 +92,7 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
                 .build();
     }
 
-
+/*
     //토큰을 claims 형태로 만드는 메소드다.
     //이를 통해 받은 토큰에 권한 정보가 있는지 없는지 체크 가능하다.
     private Claims parseClaims(String accessToken) {
@@ -114,6 +119,7 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
                   이를 구현하는 클래스를 정의하는 인터페이스를 제공한다.
              */
         //↓ 이 Collection 부분...잘 이해가 가지 않는다...
+    /*
         Collection<? extends GrantedAuthority> authorities =
                 //stream을 통한 함수형 프로그래밍으로 claims형태의 토큰을 알맞게 정렬해준다.
                     //SimpleGrantedAuthority 형태의 새 List 생성.(여기에 인가가 들어있음)
@@ -150,5 +156,6 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
         }
         return false;
     }
+*/
 
 }

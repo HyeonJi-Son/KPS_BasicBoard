@@ -1,3 +1,4 @@
+/*
 package com.example.backend.security.jwt;
 
 import lombok.RequiredArgsConstructor;
@@ -70,10 +71,11 @@ public class JwtFilter extends OncePerRequestFilter {
             *Security Context
                 - Authentication을 보관하는 역할을 함. SecurityContext를 통해 Authentication 객체를 꺼내올 수 있음.
          */
-
+/*
         }
 
         filterChain.doFilter(request, response);
         //filterChain에서 request와 response에 대한 체크를 한다.
     }
 }
+                */

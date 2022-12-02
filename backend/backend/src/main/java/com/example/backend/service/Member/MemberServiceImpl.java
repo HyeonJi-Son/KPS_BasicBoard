@@ -1,13 +1,22 @@
 package com.example.backend.service.Member;
 
+import com.example.backend.controller.dto.TokenDto;
 import com.example.backend.controller.dto.request.MemberRequest;
 import com.example.backend.entity.Member;
 import com.example.backend.repository.MemberRepository;
+import com.example.backend.security.jwt.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Service
@@ -18,6 +27,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+    //Bean 으로 등록하지 않으면 null로 확인됨
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -71,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Member login(MemberRequest memberRequest) {
+    public String login(MemberRequest memberRequest) {
 
         log.info("평문 패스워드: " + memberRequest.getPassword());
 
@@ -109,7 +128,44 @@ public class MemberServiceImpl implements MemberService {
 
         if(checkAnswer){ //true라면 로그인 마저 진행
             //jwt 전에 일단 member정보를 제대로 return하는지를 확인해보자.
-            return originMember;
+
+            //응답할 때 함께 보내줄 JWT Token 생성해야 함
+
+            //기존
+//            Authentication authentication = this.authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getEmail(),
+//                        loginRequest.getPassword()
+//                )
+//            ); 이 부분과 아랫부분은 같은 행위(인증 정보를 만들도록)를 하도록 작성되어 있다.
+                /*
+                이걸 현재 그냥 사용하면 stackoverflow 문제가 발생함.
+                문제가 생겼을 걸로 생각되는 이유: 인증 정보를 반복호출 문제가 발생했다.
+
+                아래와 같은 행위를 하기 때문에 꼭 위의 방식으로 작성할 필요는 없음.
+                다만 authenticationManager를 쓰는 방식을 이용하고 싶다면?
+                - 상단의 @Autowired Authen...Manager 주석 풀어주고
+                - CustomAuthenticationManager<-를 작성하여 사용해야 한다.
+                    - 문제있게 작성되었던 건 아님. 버전이 업데이트 되며 사용 방식이 변경된 것 같다.
+                 */
+
+            //변경
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    memberRequest.getEmail(),
+                    memberRequest.getPassword(),
+                    new ArrayList<>()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            //인증부터 여기까지 나중에는 필터에서 작업해줘야 하는 거 잊지 말기!
+
+            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication/*인증정보 들어가야함*/);
+            //accessToken이 문제없이 발급되는 걸 확인하고 가능하다면 refresh token도 발급해주자.
+
+
+            //반환해줘야하는 정보를 originMember가 아니라 accessToken으로 줘야맞는건가
+                //이렇게 변경하려면 String type을 반환할 수 있게 하면 됨.
+            return tokenDto.getAccessToken();
         }
 
             return null;

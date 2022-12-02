@@ -7,5 +7,5 @@ public interface MemberService {
 
     public Member signup (MemberRequest memberRequest);
     public boolean emailCheck(MemberRequest memberRequest);
-    public Member login (MemberRequest memberRequest);
+    public String login (MemberRequest memberRequest);
 }
