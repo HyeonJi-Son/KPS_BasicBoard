@@ -1,6 +1,8 @@
-/*
+
 package com.example.backend.security.jwt;
 
+import com.example.backend.controller.dto.TokenDto;
+import com.example.backend.utility.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //@RequiredArgsConstructor: final이나 @NonNull인 필드 값만 파라미터로 받는 생성자를 만들어준다.
+
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
                 //OncePerRequestFilter란? 동일한 리퀘스트 안에서 한 번만 필터링을 할 수 있게 해주는 것.
@@ -23,7 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     //Request Header에서 토큰 정보를 꺼내오는 메소드다.
     private String resolveToken(HttpServletRequest request) { //HttpServletRequest 요청이 들어오면
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader("Cookie");
         //요청Header를 get해와서 bearerToken이라는 String 타입 변수의 값으로 저장한다.
 
         //만약 bearerToken정보와
@@ -46,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt = resolveToken(request);
         //request될 때 header에서 꺼낸 토큰 정보를 jwt라는 String 타입 변수로 선언한다.
 
-        //만약 jwt(헤더에서 꺼낸 토큰 정보)와 tokenProvider클래스의 토큰 유효성 검증 모두 참인 경우
+        //만약 jwt(헤더에서 꺼낸 토큰 정보)와 tokenProvider클래스의 토큰 유효성 검증(validateToken) 모두 참인 경우
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             //tokenProvider의 getAuthentication(토큰을 받았을 때 토큰의 인증을 꺼내는 메소드)로부터
@@ -56,7 +59,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 //인증 정보를 set한다.(무엇을? - 바로 윗 줄에서 선언한 authentication을 )
                 //이제 SecurityContext에서 허가된 uri 이외의 모든 Request요청은 전부 이 필터를 거치게 된다.
                 //토큰 정보가 없거나 유효하지 않으면 정상적으로 수행되지 않는다.
-
 
         /*Authentication(인증) 인터페이스란?
             - 현재 접근하는 주체의 정보와 권한을 담는 인터페이스다.
@@ -71,11 +73,18 @@ public class JwtFilter extends OncePerRequestFilter {
             *Security Context
                 - Authentication을 보관하는 역할을 함. SecurityContext를 통해 Authentication 객체를 꺼내올 수 있음.
          */
-/*
+
+        }
+
+        if (StringUtils.hasText(jwt) && !tokenProvider.validateToken(jwt)) {
+            Authentication authentication = tokenProvider.getAuthentication(jwt);
+            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+            CookieUtils.addCookie(response, BEARER_PREFIX, tokenDto.getAccessToken(), -1);
         }
 
         filterChain.doFilter(request, response);
         //filterChain에서 request와 response에 대한 체크를 한다.
     }
 }
-                */
+

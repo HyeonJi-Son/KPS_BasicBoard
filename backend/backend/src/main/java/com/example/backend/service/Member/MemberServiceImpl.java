@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -130,15 +131,14 @@ public class MemberServiceImpl implements MemberService {
             //jwt 전에 일단 member정보를 제대로 return하는지를 확인해보자.
 
             //응답할 때 함께 보내줄 JWT Token 생성해야 함
-
             //기존
-//            Authentication authentication = this.authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getEmail(),
-//                        loginRequest.getPassword()
-//                )
-//            ); 이 부분과 아랫부분은 같은 행위(인증 정보를 만들도록)를 하도록 작성되어 있다.
-                /*
+/*            Authentication authentication = this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+            ); 이 부분과 아랫부분은 같은 행위(인증 정보를 만들도록)를 하도록 작성되어 있다.
+
                 이걸 현재 그냥 사용하면 stackoverflow 문제가 발생함.
                 문제가 생겼을 걸로 생각되는 이유: 인증 정보를 반복호출 문제가 발생했다.
 
@@ -148,19 +148,20 @@ public class MemberServiceImpl implements MemberService {
                 - CustomAuthenticationManager<-를 작성하여 사용해야 한다.
                     - 문제있게 작성되었던 건 아님. 버전이 업데이트 되며 사용 방식이 변경된 것 같다.
                  */
-
             //변경
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     memberRequest.getEmail(),
                     memberRequest.getPassword(),
-                    new ArrayList<>()
+                    getAuthorities()
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            //인증부터 여기까지 나중에는 필터에서 작업해줘야 하는 거 잊지 말기!
+            //인증부터 여기까지 필터에서도 작업이 되어야 한다. Login 시 최초로 발급되는
+            //access 토큰은 필터에서 발급하기 어려워 service단에서 작업.
 
             TokenDto tokenDto = tokenProvider.generateTokenDto(authentication/*인증정보 들어가야함*/);
-            //accessToken이 문제없이 발급되는 걸 확인하고 가능하다면 refresh token도 발급해주자.
+            //accessToken이 문제없이 발급되는 걸 확인하고 refresh token도 발급 받아줘야 하지만 이번 프로젝트에서는 시간 관계상 생략
+
 
 
             //반환해줘야하는 정보를 originMember가 아니라 accessToken으로 줘야맞는건가
@@ -169,6 +170,14 @@ public class MemberServiceImpl implements MemberService {
         }
 
             return null;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> listRole = new ArrayList<GrantedAuthority>();
+        //TODO: 나중에 유저롤로 추가해야함
+        listRole.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return listRole;
     }
 
 }

@@ -43,6 +43,7 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
     private static final String BEARER_TYPE = "bearer";
     //토큰의 만료 시간
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    //miliSeconds라서 1000이 1초다.
     //JWT만들 때 사용하는 암호화 키값을 사용하기 위해 security에서 불러옴
     private final Key key; //key값을 final을 주었으니 class내에서 변동되는 일 없음.
 
@@ -75,24 +76,24 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
 
         long now = (new Date().getTime()); //토큰이 생성된 현재시각을 구한다.
         //현재 시각 + 토큰 유지 최대시간 을 토큰 만료 시간으로 정해준다.
-        Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-        System.out.println(tokenExpiresIn);
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        System.out.println(accessTokenExpiresIn);
 
         String accessToken = Jwts.builder() //jwt builder를 이용해 Token 생성
                 .setSubject(authentication.getName()) //토큰 용도
                 .claim(AUTHORITIES_KEY, authorities) //인증키를 claim형태로 만든다.
-                .setExpiration(tokenExpiresIn) //토큰 만료 시간
+                .setExpiration(accessTokenExpiresIn) //토큰 만료 시간
                 .signWith(key, SignatureAlgorithm.HS256) //내가 쓸 해쉬 암호를 써야 함.
                 .compact(); //토큰 생성
 
         return TokenDto.builder() //TokenDto에 생성한 정보를 넣는다.
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .tokenExpiresIn(tokenExpiresIn.getTime())
+                .tokenExpiresIn(accessTokenExpiresIn.getTime())
                 .build();
     }
 
-/*
+
     //토큰을 claims 형태로 만드는 메소드다.
     //이를 통해 받은 토큰에 권한 정보가 있는지 없는지 체크 가능하다.
     private Claims parseClaims(String accessToken) {
@@ -116,10 +117,9 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
             //GrantedAuthority란 현재 사용자가 가지고 있는 권한들. 보통 ROLE_권한 형태로 사용된다.
             /* Java에서 Collection이란? - 데이터의 집합, 그룹을 의미한다.
                 - JCF(Java Colletions Framwork)는 이러한 데이터, 자료구조인 컬렉션과
-                  이를 구현하는 클래스를 정의하는 인터페이스를 제공한다.
-             */
+                  이를 구현하는 클래스를 정의하는 인터페이스를 제공한다.*/
+
         //↓ 이 Collection 부분...잘 이해가 가지 않는다...
-    /*
         Collection<? extends GrantedAuthority> authorities =
                 //stream을 통한 함수형 프로그래밍으로 claims형태의 토큰을 알맞게 정렬해준다.
                     //SimpleGrantedAuthority 형태의 새 List 생성.(여기에 인가가 들어있음)
@@ -156,6 +156,6 @@ public class TokenProvider { //토큰 공급, 인증 확인하는 역할의 클�
         }
         return false;
     }
-*/
+
 
 }
