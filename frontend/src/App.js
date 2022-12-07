@@ -13,24 +13,24 @@ import BoardRegisterPage from './pages/BasicBoard/BoardRegisterpage';
 import SignUpPage from './pages/member/SignUpPage';
 
 import NotFound from './pages/NotFound';
+import Layout from './pages/Layout';
 
 
 
 function App() {
 
   return (
-    <Routes>
-      <Route path="/" element={<LoginPage />}></Route>
-      <Route path="/signUpPage" element={<SignUpPage /> }></Route>
-      
-      <Route path="/boardListPage" element={<BoardListPage />}></Route>
-      <Route path="/boardModifyPage/:boardNo" element={sessionStorage.allowModify ? <BoardModifyPage /> : <NotFound/>}></Route>
-      <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
-      <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
-      <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
-
-    </Routes>
-    //<Login/>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<LoginPage />}></Route>
+        <Route path="/signUpPage" element={<SignUpPage /> }></Route>
+        <Route path="/boardListPage" element={<BoardListPage />}></Route>
+        <Route path="/boardModifyPage/:boardNo" element={sessionStorage.allowModify ? <BoardModifyPage /> : <NotFound/>}></Route>
+        <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
+        <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
+        <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
+      </Routes>
+    </Layout>
   );
 }
 

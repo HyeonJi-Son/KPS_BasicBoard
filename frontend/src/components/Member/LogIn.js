@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../reducer/memberReducer';
 import { Link } from "react-router-dom";
 import { Button, Form, Input } from 'antd'
+import { useNavigate } from 'react-router';
 
 export function Login() {
     const [data, setData] = useState({});
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { checkedLogIn } = useSelector((state) => state.member);
 
     const changeInput = (e) => {
         setData({...data, [e.target.name]: e.target.value})
@@ -24,6 +26,13 @@ export function Login() {
         dispatch(logIn(data));//reducer의 액션(registBoard)을 호출해준다.
                         //--------- <- 인자로 change에서 만들어준 data를 보내준다.
     }
+
+    useEffect(() => {
+        if (!checkedLogIn) {
+            return;
+        }
+        navigate("boardListPage");
+    }, [checkedLogIn, navigate]);
 
     return (
         <form onSubmit={submitForm}>
