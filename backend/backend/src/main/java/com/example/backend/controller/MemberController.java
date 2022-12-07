@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.controller.dto.TokenDto;
 import com.example.backend.controller.dto.request.MemberRequest;
 import com.example.backend.entity.Member;
 import com.example.backend.security.CustomAuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
@@ -24,6 +26,7 @@ public class MemberController {
 
     private MemberService service;
     private final TokenProvider tokenProvider;
+    private TokenDto tokenDto;
     public MemberController(MemberService service, TokenProvider tokenProvider) {
         this.service = service;
         this.tokenProvider = tokenProvider;
@@ -66,6 +69,12 @@ public class MemberController {
         return tokenDto;
         //return 되어야 하는 것 token...
         //하지만 그 전에 로그인 한 멤버 정보 제대로 돌려보내는지 부터 확인.
+    }
+
+    @GetMapping("/logout")
+    public void memberLogOut(HttpServletRequest request, HttpServletResponse response) {
+        //컨트롤러 단에서 cookie 삭제 & accessToken 삭제 해야 한다.
+        CookieUtils.deleteCookie(request, response, JwtFilter.BEARER_PREFIX);
     }
 
 }

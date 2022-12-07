@@ -24,13 +24,13 @@ const memberSlice = createSlice({
         setLoginChecked: (state, action) => {
             state.checkedLogIn = action.payload;
         },
-        logout: (state, action) => {
-            state.checkedLogIn = action.payload;
-        }
+        // logout: (state, action) => {
+        //     state.checkedLogIn = action.payload;
+        // }
     },
 });
 
-export const {setEmailChecked, setLoginChecked, logout} = memberSlice.actions;
+export const {setEmailChecked, setLoginChecked } = memberSlice.actions;
 //memberSlice.reducer를 다른 곳에서도 사용할 수 있도록 export 달아주었음.
 export default memberSlice.reducer;
 
@@ -89,6 +89,12 @@ export const logIn = (data) => (dispatch) => {
         })
 }
 
-// export const logOut = () => (dispatch) => {
-//     dispatch(setLoginChecked(false));
-// }
+export const logout = () => (dispatch) => {  
+    axios
+        .get('member/logout') //accessToken & Cookie 파기를 위해 axios 요청
+        .then(() => {
+            dispatch(setLoginChecked(false));
+        }, error => {
+            console.log(error.message);
+        })
+}
