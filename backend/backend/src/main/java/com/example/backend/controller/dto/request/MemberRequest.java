@@ -1,5 +1,6 @@
 package com.example.backend.controller.dto.request;
 
+import com.example.backend.entity.Role;
 import lombok.Data;
 
 /*
@@ -18,9 +19,9 @@ public class MemberRequest {
 
     private String password;
 
-    private Integer role;
+    private Role role;
 
-    public MemberRequest(Long memberNo, String nickName, String email, String password, Integer role){
+    public MemberRequest(Long memberNo, String nickName, String email, String password, Role role){
         this.memberNo = memberNo;
         this.nickName = nickName;
         this.password = password;

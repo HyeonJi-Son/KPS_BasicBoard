@@ -1,6 +1,7 @@
 package com.example.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,8 +29,10 @@ public class Member {
     @Column
     private String password;
 
-    @Column
-    private Integer role;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="roleNo")
+    @JsonIgnore
+    private Role role;
 
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -39,7 +42,7 @@ public class Member {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date upDates;
 
-    public Member(String nickName, String email, String password, Integer role) {
+    public Member(String nickName, String email, String password, Role role) {
         this.nickName = nickName;
         this.email = email;
         this.password = password;

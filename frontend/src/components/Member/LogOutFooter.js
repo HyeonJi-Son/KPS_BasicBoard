@@ -16,15 +16,6 @@ export function LogOutFooter() {
         dispatch(logout(false));
     }
 
-    useEffect(() => {
-        if (checkedLogIn) {
-            return;
-        }
-
-        navigate("/");
-
-    }, [checkedLogIn, navigate])
-
     return (
         <div align="center">
             <footer className={styles.footer}>

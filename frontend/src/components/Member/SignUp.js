@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { signUp, emailCheck, setEmailChecked } from '../../reducer/memberReducer';
+import { useNavigate } from 'react-router';
 //import styles from './Layout.module.css';
 
 export function SignUp() {
@@ -13,8 +14,10 @@ export function SignUp() {
     }); //처음의 값은 비어있음. 변화를 감지할 때 마다 추가됨.
     //onChange의 변화를 감지하여 들어온 데이터가 setData에 담김. State에 넣어준다.
         //이렇게 해주는 이벤트의 이름이 아래의 changeInput이다.
+
+    const navigate = useNavigate();    
     const dispatch = useDispatch();
-    const { checkedMail } = useSelector(state => state.member);
+    const { checkedMail, checkedLogIn } = useSelector(state => state.member);
                                     // state는 RootReducer. RootReducer가 가진 memberReducer를 사용하겠다는 뜻
          // Reducer에 있는 initialState를 펼쳐서, 그 중 CheckedMail 값을 현재 파일에서 사용하겠다고 함.                            
 
