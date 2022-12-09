@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+//import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../reducer/memberReducer';
-import { useNavigate } from 'react-router';
+//import { useNavigate } from 'react-router';
 
 import { Button } from 'antd'
 import styles from './Member.module.css';
@@ -10,7 +10,7 @@ import styles from './Member.module.css';
 export function LogOutFooter() {
 
     const { checkedLogIn } = useSelector(state => state.member);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const dispatch = useDispatch();
     const onLogout = () => {
         dispatch(logout(false));

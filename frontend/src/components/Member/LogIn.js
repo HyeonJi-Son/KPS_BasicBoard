@@ -31,7 +31,7 @@ export function Login() {
         if (!checkedLogIn) {
             return;
         }
-        navigate("boardListPage");
+        navigate("/boardListPage");
     }, [checkedLogIn, navigate]);
 
     return (

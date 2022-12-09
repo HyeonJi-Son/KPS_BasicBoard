@@ -24,13 +24,15 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />}></Route>
         <Route path="/signUpPage" element={<SignUpPage /> }></Route>
-        <Route element={<Layout />}>
-          <Route path="/boardListPage" element={<BoardListPage />}></Route>
+        <Route path="/boardListPage" element={<Layout><BoardListPage/></Layout>}/>
+      {/*  <Route element={<Layout />}>
+          
+          <Route path="/boardListPage" element={<BoardListPage />}></Route> */}
           <Route path="/boardModifyPage/:boardNo" element={sessionStorage.allowModify ? <BoardModifyPage /> : <NotFound/>}></Route>
           <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
           <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
           <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
-        </Route>
+      {/*  </Route> */}
       </Routes>
     </>
   );

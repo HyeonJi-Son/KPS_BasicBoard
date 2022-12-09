@@ -29,10 +29,13 @@ public class Member {
     @Column
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="roleNo")
-    @JsonIgnore
-    private Role role;
+    @Column
+    private Integer role;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="roleNo")
+//    @JsonIgnore
+//    private Role role;
 
     @CreationTimestamp
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -42,7 +45,7 @@ public class Member {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date upDates;
 
-    public Member(String nickName, String email, String password, Role role) {
+    public Member(String nickName, String email, String password, Integer role) {
         this.nickName = nickName;
         this.email = email;
         this.password = password;

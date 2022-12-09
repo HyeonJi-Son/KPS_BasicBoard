@@ -19,9 +19,9 @@ public class MemberRequest {
 
     private String password;
 
-    private Role role;
+    private Integer role;
 
-    public MemberRequest(Long memberNo, String nickName, String email, String password, Role role){
+    public MemberRequest(Long memberNo, String nickName, String email, String password, Integer role){
         this.memberNo = memberNo;
         this.nickName = nickName;
         this.password = password;

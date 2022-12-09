@@ -42,6 +42,7 @@ public class WebSecurityConfig {
         //사이트간 요청 위조, 웹 애플리케이션의 취약점중 하나로, 이용자가 의도하지않은 공격
                 .authorizeRequests()
                 .antMatchers("/basicBoard/**", "/member/**").permitAll() //permitAll<-권한 상관없이 모두 접근 가능.
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

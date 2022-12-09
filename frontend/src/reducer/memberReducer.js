@@ -73,7 +73,6 @@ export const logIn = (data) => (dispatch) => {
         .post('member/login', data)
         .then(result => {
             console.info("TOKEN", result.data)
-            console.log("LoginChecked 로그인 전: ", memberSlice.checkedLogIn )
             if(!result.data) { //null이 들어온 경우
                 dispatch(setLoginChecked(false))
                 alert("잘못된 Email 주소 혹은 비밀번호 입니다.");
@@ -83,7 +82,6 @@ export const logIn = (data) => (dispatch) => {
             dispatch(setLoginChecked(true))
             alert("로그인 성공!");
             // window.location = //로그인 성공하면 list페이지로 진입
-            console.log("LoginChecked 로그인 후: ", memberSlice.checkedLogIn )
         }, error => {
             console.log(error.message);
         })
