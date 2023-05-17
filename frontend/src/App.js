@@ -32,7 +32,7 @@ function App() {
           <Route path="/boardReadPage" element={<BoardReadPage />}></Route>
           <Route path="/boardRegisterPage" element={<BoardRegisterPage />}></Route>
           <Route path="/boardReadPage/:boardNo" element={<BoardReadPage /> }></Route>
-      {/*  </Route> */}
+      {/*  </-Route> */}
       </Routes>
     </>
   );

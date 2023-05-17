@@ -4,8 +4,8 @@ server:
 spring:
   security:
       user:
-        name: user
-        password: 1111 #Spring Security Default password 변경
+                          name: user
+                          password: 1111 #Spring Security Default password 변경
   datasource:
     url: jdbc:mysql://localhost:3306/probation_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
     username: amadea
@@ -27,6 +27,6 @@ spring:
       max-request-size: 20MB
 
 jwt:
-  secret: #안알려주지
+  secret: koreapolyschoolprobationamadeasonprobationperiodassignment
   #여긴 대체 뭘 어떻게 적는거야? 몇 byte이상의 key를 사용할지 적는 건지? 아니면 어떤 key를 사용할지 적는 건지??
   ##이 자리에 적힌 문자열로 암호화를 한다.
